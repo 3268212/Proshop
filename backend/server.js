@@ -1,6 +1,7 @@
 import path from 'path';
 import express from 'express';
 import dotenv from 'dotenv';
+import axios from 'axios';
 import cookieParser from 'cookie-parser';
 dotenv.config();
 import connectDB from './config/db.js';
@@ -15,6 +16,20 @@ const port = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
+
+const url = `https://proshop-uwql.onrender.com`;
+const interval  = 30000;
+function reloadWebsite(){
+    axios.get(url).then((response)=>{
+        console.log("website reloaded");
+    })
+    .catch((error)=>{
+        console.log(`Error  : ${error.message}`);
+    })
+}
+
+setInterval(reloadWebsite, interval);
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
